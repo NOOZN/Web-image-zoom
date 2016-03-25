@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #mdiv{position: relative;top:0;left: 0;float: left;}
+        #bdiv{position: relative;top:0;left: 0;float: left;width: 200px;height: 200px;overflow: hidden;margin-left: 20px;display: none;}
+        #mark{width: 100px;height: 100px;background: black;opacity: .3;position: absolute;top:0;left: 0;display: none;}
+        #bigimg{position: relative;}
+    </style>
+    <script>
+        window.onload=function () {
+            var oMdiv=document.getElementById('mdiv');
+            var oBdiv=document.getElementById('bdiv');
+            var oMark=document.getElementById('mark');
+            var oBigImg=document.getElementById('bigimg');
+
+            oMdiv.onmouseover=function () {
+                oBdiv.style.display=oMark.style.display='block';
+            };
+            oMdiv.onmouseout=function () {
+                oBdiv.style.display=oMark.style.display='none';
+            };
+            oMdiv.onmousemove=function (ev) {
+                //移动mark
+                var oEvt=ev||event;
+                var l=oEvt.clientX-oMark.offsetWidth/2;//mark的left
+                var t=oEvt.clientY-oMark.offsetHeight/2;//mark的top
+                //限定mark的活动范围
+                if(l<0)l=0;
+                if(l>oMdiv.offsetWidth-oMark.offsetWidth) l=oMdiv.offsetWidth-oMark.offsetWidth;
+                if(t<0)t=0;
+                if(t>oMdiv.offsetHeight-oMark.offsetHeight) t=oMdiv.offsetHeight-oMark.offsetHeight;
+                //赋值left和top
+                oMark.style.left=l+'px';
+                oMark.style.top=t+'px';
+                //移动img
+                oBigImg.style.left=-oMark.offsetLeft/(oBdiv.offsetWidth-oMark.offsetWidth)*(oBigImg.offsetWidth-oBdiv.offsetWidth)+'px';
+                oBigImg.style.top=oMark.offsetTop/(oBdiv.offsetHeight-oMark.offsetHeight)*(oBdiv.offsetHeight-oBigImg.offsetHeight)+'px';
+            }
+        }
+    </script>
+</head>
+<body>
+<div id="mdiv">
+    <img src="img/m1.jpg" alt="" width="200">
+    <div id="mark"></div>
+</div>
+<div id="bdiv">
+    <img src="img/m1.jpg" alt="" id="bigimg" width="400">
+</div>
+</body>
+</html>
